@@ -1,0 +1,58 @@
+diff --git a/board/aspeed/ast-g5/ast-g5.c b/board/aspeed/ast-g5/ast-g5.c
+index c62c12b..65da042 100644
+--- a/board/aspeed/ast-g5/ast-g5.c
++++ b/board/aspeed/ast-g5/ast-g5.c
+@@ -37,7 +37,7 @@ void reset_phy(void)
+ {
+ 	unsigned long reg;
+ 	/* D3 in GPIOA/B/C/D direction and data registers */
+-	unsigned long phy_reset_mask = BIT(27);
++	unsigned long phy_reset_mask = BIT(16);
+ 
+ 	/* Assert MAC2 PHY hardware reset */
+ 	/* Set pin low */
+diff --git a/configs/ast_g5_phy_defconfig b/configs/ast_g5_phy_defconfig
+index 767f3af..147595d 100644
+--- a/configs/ast_g5_phy_defconfig
++++ b/configs/ast_g5_phy_defconfig
+@@ -12,3 +12,5 @@ CONFIG_HUSH_PARSER=y
+ CONFIG_OF_LIBFDT=y
+ CONFIG_SPI_FLASH=y
+ CONFIG_SYS_NS16550=y
++CONFIG_CMD_MII=y
++CONFIG_FTGMAC100=n
+diff --git a/include/configs/ast-common.h b/include/configs/ast-common.h
+index f95e6c5..1dd428b 100644
+--- a/include/configs/ast-common.h
++++ b/include/configs/ast-common.h
+@@ -77,7 +77,7 @@
+  */
+ #define CONFIG_SYS_LONGHELP
+ #define CONFIG_SYS_CBSIZE		256		/* Console I/O Buffer Size */
+-#define CONFIG_SYS_PROMPT		"ast# "
++#define CONFIG_SYS_PROMPT		"runBMC# "
+ 
+ /* Print Buffer Size */
+ #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + sizeof(CONFIG_SYS_PROMPT) + 16)
+diff --git a/include/configs/ast-g5-phy.h b/include/configs/ast-g5-phy.h
+index 62ddb84..cfbf2be 100644
+--- a/include/configs/ast-g5-phy.h
++++ b/include/configs/ast-g5-phy.h
+@@ -22,10 +22,13 @@
+ #define CONFIG_SYS_UBOOT_BASE		CONFIG_SYS_TEXT_BASE
+ 
+ /* Ethernet */
+-#define CONFIG_MAC_NUM			2
+-#define CONFIG_FTGMAC100
+-#define CONFIG_PHY_MAX_ADDR		32
+-#define CONFIG_FTGMAC100_EGIGA
++#define CONFIG_ASPEEDNIC
++
++#define CONFIG_LIB_RAND
++#define CONFIG_MAC2_ENABLE
++#define CONFIG_MII 1
++#define CONFIG_MAC_NUM                 2
++#define CONFIG_PHY_ADDR  2
+ 
+ /* platform.S */
+ #define	CONFIG_DRAM_ECC_SIZE		0x10000000
